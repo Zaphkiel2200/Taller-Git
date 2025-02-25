@@ -1,0 +1,1 @@
+Una joven descubre el reloj mientras ayuda a limpiar el viejo ático de su abuela. Intrigada por su diseño intrincado y su esfera dorada, decide darle cuerda. De repente, el mundo a su alrededor se distorsiona y se encuentra una hora en el pasado. Al principio, se emociona al darse cuenta de que puede corregir pequeños errores y vivir momentos felices nuevamente.girgit branch
