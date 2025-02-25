@@ -1,0 +1,3 @@
+En una pequeña startup tecnológica, un grupo de desarrolladores trabajaba en un proyecto revolucionario. Todo iba bien hasta que, un fatídico lunes por la mañana, el código desapareció misteriosamente del servidor. El equipo entró en pánico: cientos de horas de trabajo parecían haber desaparecido sin dejar rastro.
+
+Fue entonces cuando Sofía, una de las desarrolladoras más experimentadas, sonrió con confianza. "Tranquilos, chicos. Para eso existe Git".
