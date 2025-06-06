@@ -1,4 +1,229 @@
-Sombra descubrió una lápida rota en el cementerio, con tierra removida y huellas que llevaban a una cripta. 
-Siguiéndolas, se adentró en la oscuridad, donde una figura encapuchada sostenía una vela que no proyectaba sombra.
-La figura susurraba un idioma extraño mientras manipulaba algo sobre una antigua tumba. 
-El gato, intrigado pero inquieto, se acercó lentamente, y cuando estaba a punto de ver qué hacía la figura, 
+mi-app/
+│
+├── public/
+│   └── index.html
+│
+├── src/
+│   ├── components/
+│   │   └── register-form.ts
+│   ├── firebase/
+│   │   └── firebase-config.ts
+│   └── main.ts
+│
+├── .gitignore
+├── tsconfig.json
+├── webpack.config.js
+├── package.json
+
+
+npm init -y
+npm install firebase
+npm install typescript webpack webpack-cli ts-loader --save-dev
+
+🔥 Firebase Config – src/firebase/firebase-config.ts
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+  appId: "TU_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+
+
+🧩 Web Component – src/components/register-form.ts
+import { auth } from "../firebase/firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
+class RegisterForm extends HTMLElement {
+  shadow: ShadowRoot;
+
+  constructor() {
+    super();
+    this.shadow = this.attachShadow({ mode: "open" });
+    this.render();
+  }
+
+  connectedCallback() {
+    const form = this.shadow.querySelector("form");
+    form?.addEventListener("submit", this.handleSubmit.bind(this));
+  }
+
+  async handleSubmit(e: Event) {
+    e.preventDefault();
+    const email = (this.shadow.querySelector("#email") as HTMLInputElement).value;
+    const password = (this.shadow.querySelector("#password") as HTMLInputElement).value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      alert("Usuario registrado: " + userCredential.user.email);
+    } catch (error: any) {
+      alert("Error al registrar: " + error.message);
+    }
+  }
+
+  render() {
+    this.shadow.innerHTML = `
+      <style>
+        form {
+          display: flex;
+          flex-direction: column;
+          width: 300px;
+        }
+        input {
+          margin-bottom: 10px;
+          padding: 8px;
+        }
+        button {
+          padding: 10px;
+        }
+      </style>
+      <form>
+        <h2>Registro</h2>
+        <input type="email" id="email" placeholder="Correo" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit">Registrarse</button>
+      </form>
+    `;
+  }
+}
+
+customElements.define("register-form", RegisterForm);
+🚀 src/main.ts
+
+import "./components/register-form";
+
+🧾 public/index.html
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro con Firebase</title>
+</head>
+<body>
+  <register-form></register-form>
+  <script src="bundle.js"></script>
+</body>
+</html>
+
+
+
+¡Claro, Dayan! Te explico paso a paso cómo **conectar Firebase a un proyecto en Visual Studio Code (VS Code)**, usando HTML, JavaScript o TypeScript, como estás haciendo con tus Web Components.
+
+---
+
+## ✅ ¿Qué necesitas antes de empezar?
+
+1. Tener una cuenta en [Firebase](https://console.firebase.google.com/)
+2. Tener VS Code instalado.
+3. Tener un proyecto creado en Firebase.
+
+---
+
+## 🔌 PASO A PASO: Conectar Firebase a tu proyecto
+
+### 🟢 1. Crea tu proyecto en Firebase
+
+1. Ve a [https://console.firebase.google.com/](https://console.firebase.google.com/)
+2. Haz clic en **"Agregar proyecto"**
+3. Ponle nombre (por ejemplo, `MemeWall`)
+4. Continúa sin Google Analytics (opcional)
+5. Espera a que se cree.
+
+---
+
+### 🟢 2. Agrega una app web a tu proyecto
+
+1. En el dashboard de Firebase, haz clic en el ícono `</>` que dice **"Agregar app web"**
+2. Nómbrala como `memeweb` o como quieras.
+3. Firebase te dará un **código de configuración** como este:
+
+```js
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_DOMINIO.firebaseapp.com",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_BUCKET.appspot.com",
+  messagingSenderId: "SENDER_ID",
+  appId: "APP_ID"
+};
+```
+
+**Guárdalo. Lo usarás en tu código.**
+
+---
+
+### 🟢 3. Crea tu proyecto local en VS Code
+
+1. Abre VS Code.
+2. Crea una carpeta, por ejemplo: `MemeWall`
+3. Dentro de esa carpeta, crea un archivo `index.html`
+
+---
+
+### 🟢 4. Agrega Firebase al HTML con `<script>` (sin instalar nada)
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MemeWall</title>
+</head>
+<body>
+  <h1>Hola MemeWall</h1>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // Tu configuración
+    const firebaseConfig = {
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_DOMINIO.firebaseapp.com",
+      projectId: "TU_PROJECT_ID",
+      appId: "TU_APP_ID"
+    };
+
+    // Inicializar Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    console.log("🔥 Firebase conectado");
+  </script>
+</body>
+</html>
+```
+
+---
+
+### 🟢 5. Abre el archivo en el navegador
+
+* Haz clic derecho en `index.html` → **"Abrir con Live Server"** (si tienes la extensión).
+* O simplemente **abre el archivo en el navegador** con doble clic.
+
+Abre la consola del navegador (F12) y deberías ver:
+`🔥 Firebase conectado`
+
+---
+
+## 🧪 ¿Qué puedes hacer ahora?
+
+Ya puedes:
+
+* Usar **Firebase Auth** (`getAuth`)
+* Usar **Firebase Storage** (`getStorage`)
+* Usar **Firebase Firestore** (`getFirestore`)
+* Usar Supabase como complemento si lo deseas.
+
+---
+
+¿Quieres que el próximo paso sea conectar Firebase Storage para subir memes o seguir con login/registro?
+
